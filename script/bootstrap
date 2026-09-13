@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+#/ Usage: script/bootstrap
+#/ Install the locked dependencies into the repo-local .venv.
+set -e
+if [[ "$1" =~ ^-h$|(--)?help ]]; then grep "^#/" < "$0" | cut -c4-; exit 0; fi
+cd "$(dirname "$0")/.."
+export UV_PROJECT_ENVIRONMENT=.venv
+if ! type -P uv >/dev/null 2>&1; then
+  echo >&2 "Please install uv: https://docs.astral.sh/uv/getting-started/installation/"
+  exit 1
+fi
+uv sync --locked "$@"

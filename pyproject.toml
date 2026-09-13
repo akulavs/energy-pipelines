@@ -1,0 +1,65 @@
+[build-system]
+requires = ["uv_build>=0.10.6,<0.11"]
+build-backend = "uv_build"
+
+[project]
+name = "batch-jobs"
+version = "0.1.0"
+description = "Prefect flows for the climate and building-load pipelines"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "common",
+    "external-data",
+    "patito>=0.8.6",
+    "polars>=1.39.0",
+    "prefect>=3.6.19",
+]
+
+[dependency-groups]
+dev = [
+    { include-group = "test" },
+    "pyarrow-stubs>=20.0.0.20251215",
+    "ruff>=0.15.17,<0.16",
+    "ty>=0.0.49,<0.0.50",
+]
+test = [
+    "pytest>=9.0.0",
+    "pytest-asyncio>=1.3.0",
+    "pytest-env>=1.2.0",
+    "pytest-mock>=3.15.1",
+    "pytest-subtests>=0.14.0",
+    "respx>=0.22.0",
+]
+
+[tool.uv]
+required-version = ">=0.10.6"
+
+[tool.uv.sources]
+common = { workspace = true }
+external-data = { workspace = true }
+
+[tool.uv.workspace]
+members = ["packages/*"]
+
+[tool.pytest.ini_options]
+markers = [
+    "slow: marks tests as slow-running benchmarks (deselect with '-m not slow')",
+    "integration: hits a live external service (CDS, NREL, OEDI) -- excluded by default, needs credentials",
+]
+addopts = """
+    --verbosity=1 \
+    --durations=10 \
+    --color=yes \
+    --strict-markers \
+    --strict-config \
+    -m "not slow and not integration" \
+"""
+asyncio_mode = "auto"
+tmp_path_retention_policy = "failed"
+testpaths = ["tests", "packages/common/tests", "packages/external-data/tests"]
+
+[tool.pytest_env]
+AWS_ACCESS_KEY_ID = "ci"
+AWS_SECRET_ACCESS_KEY = "ci"
+AWS_DEFAULT_REGION = "us-west-2"

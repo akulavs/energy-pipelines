@@ -1,0 +1,25 @@
+{
+  "data_format": "netcdf",
+  "date": [
+    "2025-06-01/2025-06-01"
+  ],
+  "location": {
+    "latitude": 37.45,
+    "longitude": -122.25
+  },
+  "variable": [
+    "2m_temperature",
+    "2m_dewpoint_temperature",
+    "surface_solar_radiation_downwards",
+    "10m_u_component_of_wind",
+    "10m_v_component_of_wind",
+    "soil_temperature_level_1",
+    "soil_temperature_level_2",
+    "soil_temperature_level_3",
+    "soil_temperature_level_4",
+    "skin_temperature",
+    "snow_depth",
+    "snow_cover",
+    "total_precipitation"
+  ]
+}

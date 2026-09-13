@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+#/ Usage: script/format [args...]
+set -e
+if [[ "$1" =~ ^-h$|(--)?help ]]; then grep "^#/" < "$0" | cut -c4-; exit 0; fi
+cd "$(dirname "$0")/.."
+export UV_PROJECT_ENVIRONMENT=.venv
+exec uv run --locked ruff format "$@"

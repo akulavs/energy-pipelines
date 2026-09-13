@@ -1,0 +1,31 @@
+name: tests
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: test
+            script: script/test
+          - name: type-check
+            script: script/type-check
+          - name: lint
+            script: script/lint
+          - name: format
+            script: script/format --check
+    name: ${{ matrix.name }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+      - run: script/bootstrap
+      - run: ${{ matrix.script }}
